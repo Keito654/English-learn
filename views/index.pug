@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div.d-flex.flex-row.justify-content-between
+    div
+      p.mt-3 例文一覧
+    div.mt-3
+      a(href="/favorite", role="button").btn.btn-warning.btn-sm お気に入り
+  div.text-center
+    a(href=`/word/${lastAccess}`, role="button").btn.btn-success.btn-sm 最後に確認した例文: #{lastAccess} 
+  br
+  table(id="word-table").table
+    tr
+    each word in words 
+      tr 
+        td(style="width: 15%") 
+          div.text-center
+            a(href=`/word/${word.wordId}`,role="button").btn.btn-primary.rounded-pill.text-center #{word.wordId}
+        td #{word.wordContent}

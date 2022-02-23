@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title 英語暗記くん
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/javascripts/main.css")
+  body
+    nav.navbar.navbar-light.bg-light
+      div.navbar-header
+        a(href="/").navbar-brand.nav-link 単語暗記くん
+      div
+        ul.navbar-nav
+          if user 
+            li.nav-item
+            - var username = user.userId || user;
+              a(href="/logout").nav-link.me-2 #{username}をログアウト
+          else 
+            li.nav-item
+              a(href="/login").nav-link.me-2 ログイン
+    div.container
+      block content
+    script(src="/javascripts/bundle.js" defer)

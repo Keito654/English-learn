@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  style(type="text/css").
+    textarea {
+      border-width: 0px;
+      border-style: None;
+      height: auto;
+      color: inherit;
+      caret-color: transparent;
+      outline: none;
+      width: 100%;
+      font-size: 1.15rem;
+      font-weight: 500;
+      resize: none;
+      background-color: #FFFFFF;
+      -webkit-text-fill-color: black;
+      opacity: 1;
+    }
+    .btn-outline-warning:hover{
+      color: #ffc107;
+      background-color: #ffffff;
+      border-color: #ffc107;
+    }
+  audio(id="bgm")
+    source(src=`${audioSrc.slow}` type="audio/mp3")
+  audio(id="bgm_fast") 
+    source(src=`${audioSrc.fast}` type="audio/mp3")
+  p.lead.mb-1.text-center  #{word.wordId}
+  i.bi.bi-volume-down-fill
+  textarea(type="text" ,id="btn-play",readonly="readonly", rows="4") #{word.wordContent} 
+  button(type="button" id="btn-play-fast").btn.btn-outline-secondary.btn-sm
+    i.bi.bi-volume-down-fill ナチュラルスピード
+  
+  p(style="margin-top:6.5rem;").text-center  #{word.wordTranslate}
+
+  div(style="height:65px").fixed-bottom
+    - var preWordId = word.wordId - 1;
+    - var nextWordId = word.wordId + 1;
+    div(role="toolbar").btn-toolbar.justify-content-between
+      div(role="group").btn-group
+        if preWordId > 0
+          a(href=`/word/${preWordId}`,role="button").btn.btn-secondary.btn-sm.ms-2.rounded-pill 
+            i.bi.bi-chevron-double-left
+        else 
+          a(href=`/`, role="button", aria-disabled="true").disabled.btn.btn-secondary.btn-sm.ms-2.rounded-pill 
+            i.bi.bi-chevron-double-left
+      div(role="group").btn-group
+          if checked
+            input(type="checkbox", id="favoriteCheck", name="favoriteCheck", 
+            data-wordid=word.wordId, checked).btn-check
+          else 
+            input(type="checkbox", id="favoriteCheck", name="favoriteCheck", 
+            data-wordid=word.wordId).btn-check
+          label(for="favoriteCheck").btn.btn-outline-warning 
+            i.bi.bi-star-fill
+      div(role="group").btn-group
+        if nextWordId <= 560
+          a(href=`/word/${nextWordId}`, role="button").btn.btn-secondary.btn-sm.me-2.rounded-pill 
+            i.bi.bi-chevron-double-right
+        else 
+          a(href=`/`, role="button", aria-disabled="true").disabled.btn.btn-secondary.btn-sm.me-2.rounded-pill 
+            i.bi.bi-chevron-double-right

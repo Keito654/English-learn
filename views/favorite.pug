@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  p.lead.mt-3 お気に入り
+  if words
+    table(id="word-table").table
+      tr
+        th(style="width: 15%").text-center No.
+        th.text-center 例文
+      each word in words 
+        tr 
+          td 
+            div.text-center
+              a(href=`/favWord/${word.wordId}`, role="button").btn.btn-primary.rounded-pill.text-center #{word.wordId}
+          td #{word.wordContent}
+  else 
+    p お気に入りがありません。
+    a(href="/").btn.btn-info 戻る

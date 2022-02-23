@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  form(method="post" action="/add")
+    div
+      textarea(name="addWords", cols="30", rows="10")
+    div 
+      button(type="submit") OK
+  
