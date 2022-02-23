@@ -1,12 +1,18 @@
 "use strict";
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'express'.
 const express = require("express");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'router'.
 const router = express.Router();
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Word'.
 const Word = require("../models/word");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Favorite'.
 const Favorite = require("../models/favorite");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'authentica... Remove this comment to see the full error message
 const authenticationEnsurer = require("./authentication-ensurer");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'cloudinary... Remove this comment to see the full error message
 const cloudinary = require("../cloudinary");
 
-router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
+router.get("/:wordId", authenticationEnsurer, async (req: any, res: any, next: any) => {
   const word = await Word.findOne({
     where: {
       wordId: parseInt(req.params.wordId),
@@ -50,12 +56,13 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
     });
   } else {
     const err = new Error("指定された単語は見つかりません");
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'status' does not exist on type 'Error'.
     err.status = 404;
     next(err);
   }
 });
 
-router.post("/", authenticationEnsurer, async (req, res, next) => {
+router.post("/", authenticationEnsurer, async (req: any, res: any, next: any) => {
   //お気に入り機能　JQueryでpostを受け取りfaboriteテーブルに入れる
   const wordId = parseInt(req.body.wordId);
   const favoritebool = req.body.favoritebool;
@@ -84,4 +91,5 @@ router.post("/", authenticationEnsurer, async (req, res, next) => {
   }
 });
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = router;

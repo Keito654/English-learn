@@ -1,13 +1,19 @@
 "use strict";
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'express'.
 const express = require("express");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'router'.
 const router = express.Router();
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Word'.
 const Word = require("../models/word");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'Favorite'.
 const Favorite = require("../models/favorite");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'authentica... Remove this comment to see the full error message
 const authenticationEnsurer = require("./authentication-ensurer");
+// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'cloudinary... Remove this comment to see the full error message
 const cloudinary = require("../cloudinary");
 
 //お気に入り一覧画面からの各単語にアクセスするときのルーター
-router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
+router.get("/:wordId", authenticationEnsurer, async (req: any, res: any, next: any) => {
   //お気に入りに登録された単語一覧を取得し、配列のままビューに渡す
   //ビューはその配列の一つ前、一つ後をボタンとして登録できる
   const words = await Word.findAll({
@@ -23,7 +29,7 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
 
   //URLのIDと同じ要素をもつwordを抜き出す
   let num;
-  words.forEach((i) => {
+  words.forEach((i: any) => {
     if (i.wordId === parseInt(req.params.wordId)) {
       num = words.indexOf(i);
     }
@@ -67,7 +73,9 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
 
     //次のワードの数字を計算する
     const page = {
+      // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
       pre: words[num - 1]?.wordId ?? null,
+      // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
       next: words[num + 1]?.wordId ?? null,
     };
 
@@ -81,9 +89,11 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
     });
   } else {
     const err = new Error("指定された単語は見つかりません");
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'status' does not exist on type 'Error'.
     err.status = 404;
     next(err);
   }
 });
 
+// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = router;
