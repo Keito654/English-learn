@@ -1,13 +1,8 @@
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'express'.
-var express = require("express");
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'router'.
-var router = express.Router();
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-var passport = require("passport");
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'User'.
-var User = require("../models/user");
-// @ts-expect-error ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'crypto'.
-const crypto = require("crypto");
+import express from "express";
+export const router = express.Router();
+import passport from "passport";
+import { User } from "../models/User";
+import crypto from "crypto";
 
 router.get("/", (req: any, res: any, next: any) => {
   res.render("login", { user: req.user });
@@ -48,6 +43,3 @@ router.post(
     res.redirect("/");
   }
 );
-
-// @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = router;

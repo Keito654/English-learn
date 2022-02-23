@@ -1,7 +1,11 @@
 "use strict";
-const cloudinary = require("cloudinary").v2;
+import cloudinaryModule from "cloudinary";
+import dotenv from "dotenv";
+
+export const cloudinary = cloudinaryModule.v2;
+
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+  dotenv.config();
 }
 
 cloudinary.config({
@@ -10,5 +14,3 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
   secure: true,
 });
-
-module.exports = cloudinary;

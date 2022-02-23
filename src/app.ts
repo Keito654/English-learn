@@ -1,28 +1,28 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var helmet = require("helmet");
-var session = require("express-session");
-var bcrypt = require("bcrypt");
-const flash = require('connect-flash');
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import helmet from "helmet";
+import session from "express-session";
+import bcrypt from "bcrypt";
+import flash from "connect-flash";
 
-var indexRouter = require("./routes/index");
-var addRouter = require("./routes/add");
-var wordRouter = require("./routes/word");
-var loginRouter = require("./routes/login");
-var logoutRouter = require("./routes/logout");
-var newUserRouter = require("./routes/newUser");
-var favoriteRouter = require("./routes/favorite");
-var favWordRouter = require("./routes/favWord");
+import { router as indexRouter } from "./routes/index";
+import { router as addRouter } from "./routes/add";
+import { router as wordRouter } from "./routes/word";
+import { router as loginRouter } from "./routes/login";
+import { router as logoutRouter } from "./routes/logout";
+import { router as newUserRouter } from "./routes/newUser";
+import { router as favoriteRouter } from "./routes/favorite";
+import { router as favWordRouter } from "./routes/favWord";
 
-var Word = require("./models/word");
-var User = require("./models/user");
-var Favorite = require("./models/favorite");
-const passport = require("passport");
-const favicon = require("express-favicon");
-const compression = require("compression");
+import { Word } from "./models/word";
+import { User } from "./models/user";
+import { Favorite } from "./models/favorite";
+import passport from "passport";
+import favicon from "express-favicon";
+import compression from "compression";
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV !== "production") {
   Favorite.sync();
 })();
 
-var app = express();
+const app = express();
 app.use(helmet());
 app.use(flash());
 app.use(
@@ -46,7 +46,7 @@ app.use(
     useDefaults: true,
     directives: {
       "media-src": ["'self'", "https://res.cloudinary.com"],
-      "script-src": ["'self'", "'unsafe-eval'"]
+      "script-src": ["'self'", "'unsafe-eval'"],
     },
   })
 );
@@ -60,7 +60,7 @@ app.use(
 );
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", "/workspace/views");
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
@@ -68,14 +68,14 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(favicon(__dirname + "/public/images/favicon.png"));
+app.use(favicon("/workspace/public/images/favicon.png"));
 
 app.use(passport.initialize());
 app.use(
   session({
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET as string,
   })
 );
 
@@ -83,12 +83,12 @@ passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser((user, doen) => {
+passport.deserializeUser((user: any, doen) => {
   doen(null, user);
 });
 
 app.use(passport.session());
-var LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 passport.use(
   new LocalStrategy(
     {
@@ -109,7 +109,9 @@ passport.use(
           });
         } else {
           const passAndHash = password + process.env.PASSWORD_HASH;
-          isCorrectPassword = await bcrypt.compare(passAndHash, user.password);
+          bcrypt.compare(passAndHash, user.password, (err, same) => {
+            isCorrectPassword = same;
+          });
         }
         if (isCorrectPassword) {
           return done(null, username);
