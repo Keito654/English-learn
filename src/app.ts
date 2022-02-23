@@ -109,7 +109,7 @@ passport.use(
         let isCorrectPassword;
         if (user === null) {
           return done(null, false, {
-            message: "ユーザーIDが正しくありません。",
+            message: "IDまたはパスワードが正しくありません。",
           });
         } else {
           const passAndHash = password + process.env.PASSWORD_HASH;
