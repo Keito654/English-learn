@@ -1,13 +1,13 @@
 "use strict";
-const express = require("express");
-const router = express.Router();
-const Word = require("../models/word");
-const Favorite = require("../models/favorite");
-const authenticationEnsurer = require("./authentication-ensurer");
-const cloudinary = require("../cloudinary");
+import express from "express";
+export const router = express.Router();
+import { Word } from "../models/word";
+import { Favorite } from "../models/favorite";
+import { ensure } from "./authentication-ensurer";
+import { cloudinary } from "../cloudinaryModule";
 
 //お気に入り一覧画面からの各単語にアクセスするときのルーター
-router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
+router.get("/:wordId", ensure, async (req: any, res: any, next: any) => {
   //お気に入りに登録された単語一覧を取得し、配列のままビューに渡す
   //ビューはその配列の一つ前、一つ後をボタンとして登録できる
   const words = await Word.findAll({
@@ -22,14 +22,16 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
   });
 
   //URLのIDと同じ要素をもつwordを抜き出す
-  let num;
-  words.forEach((i) => {
-    if (i.wordId === parseInt(req.params.wordId)) {
-      num = words.indexOf(i);
-    }
-  });
+  //let num: number;
+  // words.forEach((i: any) => {
+  //   if (i.wordId === parseInt(req.params.wordId)) {
+  //     num = words.indexOf(i);
+  //   }
+  // });
 
-  const word = words[num];
+  const [word] = words.filter((w: any) => w.wordId === parseInt(req.params.wordId));
+
+  //const word = words[num];
 
   //ワードが見つかれば処理をすすめる
   if (word) {
@@ -67,7 +69,9 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
 
     //次のワードの数字を計算する
     const page = {
+      // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
       pre: words[num - 1]?.wordId ?? null,
+      // @ts-expect-error ts-migrate(2532) FIXME: Object is possibly 'undefined'.
       next: words[num + 1]?.wordId ?? null,
     };
 
@@ -81,9 +85,8 @@ router.get("/:wordId", authenticationEnsurer, async (req, res, next) => {
     });
   } else {
     const err = new Error("指定された単語は見つかりません");
+    // @ts-expect-error ts-migrate(2339) FIXME: Property 'status' does not exist on type 'Error'.
     err.status = 404;
     next(err);
   }
 });
-
-module.exports = router;

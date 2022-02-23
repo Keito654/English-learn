@@ -1,7 +1,8 @@
 "use strict";
-const { sequelize, DataTypes } = require("./sequelize-loader");
+import { sequelize } from "./sequelize-loader";
+import { DataTypes } from "sequelize";
 
-const Favorite = sequelize.define(
+export const Favorite = sequelize.define(
   "favorites",
   {
     userId: {
@@ -20,5 +21,3 @@ const Favorite = sequelize.define(
     timestamps: false,
   }
 );
-
-module.exports = Favorite;
