@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
@@ -7,6 +7,7 @@ import helmet from "helmet";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import flash from "connect-flash";
+import favicon from "serve-favicon";
 
 import { router as indexRouter } from "./routes/index";
 import { router as addRouter } from "./routes/add";
@@ -21,7 +22,7 @@ import { Word } from "./models/word";
 import { User } from "./models/user";
 import { Favorite } from "./models/favorite";
 import passport from "passport";
-import favicon from "express-favicon";
+//import favicon from "express-favicon";
 import compression from "compression";
 
 if (process.env.NODE_ENV !== "production") {
@@ -67,8 +68,11 @@ app.use(logger("dev"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(favicon("/workspace/public/images/favicon.png"));
+app.use(express.static(path.join(__dirname, "../public")));
+const options = {
+  maxAge: 200 * 60 * 60 * 24 * 1000,
+};
+app.use(favicon(path.join(__dirname, "../public/images/favicon.png"), options));
 
 app.use(passport.initialize());
 app.use(
@@ -97,9 +101,9 @@ passport.use(
       passReqToCallback: true,
       session: false,
     },
-    function (req, username, password, done) {
+    function (req: any, username: any, password: any, done: any) {
       process.nextTick(async () => {
-        const user = await User.findOne({
+        const user: any = await User.findOne({
           where: { userId: username },
         });
         let isCorrectPassword;
@@ -109,9 +113,7 @@ passport.use(
           });
         } else {
           const passAndHash = password + process.env.PASSWORD_HASH;
-          bcrypt.compare(passAndHash, user.password, (err, same) => {
-            isCorrectPassword = same;
-          });
+          isCorrectPassword = await bcrypt.compare(passAndHash, user.password);
         }
         if (isCorrectPassword) {
           return done(null, username);
@@ -140,7 +142,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

@@ -14,7 +14,7 @@ export async function ensure(req: any, res: any, next: any) {
     }); //送られたきたクッキーの情報から合致するユーザーを探す
 
     for (let i in users) {
-      const user = users[i];
+      const user: any = users[i];
       const verifyingHash = crypto
         // @ts-expect-error ts-migrate(2339) FIXME: Property 'createHmac' does not exist on type 'Cryp... Remove this comment to see the full error message
         .createHmac("sha256", process.env.APP_KEY)
@@ -26,7 +26,7 @@ export async function ensure(req: any, res: any, next: any) {
           const user = req.user;
           const rememberToken = crypto.randomBytes(20).toString("hex"); // ランダムな文字列
           const hash = crypto
-            .createHmac("sha256", process.env.APP_KEY)
+            .createHmac("sha256", process.env.APP_KEY as string)
             .update(user.userId + "-" + rememberToken)
             .digest("hex");
           User.update(

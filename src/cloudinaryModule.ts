@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 export const cloudinary = cloudinaryModule.v2;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 

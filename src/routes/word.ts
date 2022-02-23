@@ -5,7 +5,7 @@ export const router = express.Router();
 import {Word} from "../models/word";
 import {Favorite} from "../models/favorite";
 import {ensure} from "./authentication-ensurer";
-import { cloudinary } from "../cloudinary";
+import { cloudinary } from "../cloudinaryModule";
 
 router.get("/:wordId", ensure, async (req: any, res: any, next: any) => {
   const word = await Word.findOne({

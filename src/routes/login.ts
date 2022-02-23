@@ -1,7 +1,7 @@
 import express from "express";
 export const router = express.Router();
 import passport from "passport";
-import { User } from "../models/User";
+import { User } from "../models/user";
 import crypto from "crypto";
 
 router.get("/", (req: any, res: any, next: any) => {
@@ -23,11 +23,9 @@ router.post(
     }
 
     const user = req.user;
-    // @ts-expect-error ts-migrate(2339) FIXME: Property 'randomBytes' does not exist on type 'Cry... Remove this comment to see the full error message
     const rememberToken = crypto.randomBytes(20).toString("hex"); // ランダムな文字列
     const hash = crypto
-      // @ts-expect-error ts-migrate(2339) FIXME: Property 'createHmac' does not exist on type 'Cryp... Remove this comment to see the full error message
-      .createHmac("sha256", process.env.APP_KEY)
+      .createHmac("sha256", process.env.APP_KEY as any)
       .update(user + "-" + rememberToken)
       .digest("hex");
     User.update({ rememberToken: rememberToken }, { where: { userId: user } });

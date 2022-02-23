@@ -3,20 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "watch": "tsc -w"
   },
   "dependencies": {
     "@popperjs/core": "^2.10.2",
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.7.0",
-    "cloudinary": "",
+    "cloudinary": "^1.28.1",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "express-favicon": "^2.0.1",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
     "http-errors": "~1.6.2",
@@ -27,14 +27,15 @@
     "pg": "8.5.1",
     "pg-hstore": "2.3.3",
     "pug": "2.0.0-beta11",
-    "sequelize": "6.5.0"
+    "sequelize": "6.5.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@types/babel__core": "^7.1.18",
     "@types/babel__preset-env": "^7.9.2",
-    "@types/bcrypt": "^10.0.28-alpha",
+    "@types/bcrypt": "^5.0.0",
     "@types/bootstrap": "^5.1.9",
     "@types/compression": "^1.7.2",
     "@types/connect-flash": "^0.0.37",
@@ -51,6 +52,8 @@
     "@types/passport-local": "^1.0.34",
     "@types/pg": "8.6.4",
     "@types/pug": "2.0.6",
+    "@types/serve-favicon": "^2.5.3",
+    "@types/tsc-watch": "^4.2.0",
     "babel-loader": "8.0.4",
     "css-loader": "^6.5.0",
     "css-minimizer-webpack-plugin": "^3.1.1",
@@ -62,6 +65,7 @@
     "ts-migrate": "^0.1.28",
     "ts-node": "^10.5.0",
     "tsc": "^2.0.4",
+    "tsc-watch": "^4.6.0",
     "typescript": "^4.5.5",
     "typesync": "^0.8.0",
     "url-loader": "^4.1.1",

@@ -4,7 +4,7 @@ export const router = express.Router();
 import { Word } from "../models/word";
 import { Favorite } from "../models/favorite";
 import { ensure } from "./authentication-ensurer";
-import { cloudinary } from "../cloudinary";
+import { cloudinary } from "../cloudinaryModule";
 
 //お気に入り一覧画面からの各単語にアクセスするときのルーター
 router.get("/:wordId", ensure, async (req: any, res: any, next: any) => {
@@ -22,14 +22,16 @@ router.get("/:wordId", ensure, async (req: any, res: any, next: any) => {
   });
 
   //URLのIDと同じ要素をもつwordを抜き出す
-  let num: number;
-  words.forEach((i: any) => {
-    if (i.wordId === parseInt(req.params.wordId)) {
-      num = words.indexOf(i);
-    }
-  });
+  //let num: number;
+  // words.forEach((i: any) => {
+  //   if (i.wordId === parseInt(req.params.wordId)) {
+  //     num = words.indexOf(i);
+  //   }
+  // });
 
-  const word = words[num];
+  const [word] = words.filter((w: any) => w.wordId === parseInt(req.params.wordId));
+
+  //const word = words[num];
 
   //ワードが見つかれば処理をすすめる
   if (word) {
