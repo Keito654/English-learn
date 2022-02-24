@@ -7,6 +7,9 @@ import { ensure } from "./authentication-ensurer";
 /* GET home page. */
 router.get("/", ensure, async (req: any, res: any, next: any) => {
   const words = await Word.findAll({
+    where: {
+      userId: req.user.userId ?? req.user,
+    },
     order: [["wordId", "ASC"]],
   });
   const lastAccess = req.cookies.lastAccess;

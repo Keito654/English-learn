@@ -17,6 +17,10 @@ export const Word = sequelize.define(
     wordTranslate: {
       type: DataTypes.STRING,
     },
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,

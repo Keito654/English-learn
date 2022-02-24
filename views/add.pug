@@ -2,8 +2,11 @@ extends layout
 
 block content
   form(method="post" action="/add")
-    div
-      textarea(name="addWords", cols="30", rows="10")
-    div 
-      button(type="submit") OK
+    div.text-center.mt-3
+      textarea(name="addWords", rows="10", id="add-text").w-100
+    div.d-flex.flex-row.justify-content-between
+      div.mt-3
+        button(type="submit").btn.btn-success 登録
+      div.mt-3
+        a(href="/", role="button").btn.btn-secondary 戻る
   

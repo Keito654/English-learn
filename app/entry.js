@@ -32,6 +32,8 @@ $bgm_fast.on("ended", () => {
   $("#btn-play").prop("disabled", false);
 });
 
+$('#add-text').attr('placeholder', '英単語 1個目\r\n日本語訳 1個\r\n\r\n英単語 2個目\r\n日本語訳 2個目\r\n\r\n英単語 3個目\r\n...');
+
 const fav = $("#favoriteCheck");
 fav.on("click", () => {
   const wordId = fav.data("wordid");

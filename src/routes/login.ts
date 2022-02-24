@@ -34,7 +34,6 @@ router.post(
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // １週間
     });
-
     return next();
   },
   (req: any, res: any, next: any) => {

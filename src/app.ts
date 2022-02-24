@@ -32,8 +32,10 @@ if (process.env.NODE_ENV !== "production") {
 (async () => {
   Word.hasOne(Favorite, { foreignKey: "wordId" });
   User.hasOne(Favorite, { foreignKey: "userId" });
-  await Word.sync();
+  User.hasOne(Word, { foreignKey: "userId"});
   await User.sync();
+  Word.belongsTo(User, { foreignKey: "userId" });
+  await Word.sync();
   Favorite.belongsTo(Word, { foreignKey: "wordId" });
   Favorite.belongsTo(User, { foreignKey: "userId" });
   Favorite.sync();
