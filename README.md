@@ -5,3 +5,8 @@
 
 このサイトはプロジェクトによって管理されています。  
 https://github.com/Keito654/English-learn/projects/2
+
+過去に作った自分用のこちらのサイト
+https://anki-kun.work/
+
+をもとに改良しています。
